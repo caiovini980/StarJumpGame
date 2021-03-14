@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public Transform playerTransform;
+    [SerializeField] private Transform playerTransform;
 
     private Transform _cameraTransform;
 
@@ -18,7 +18,7 @@ public class CameraMovement : MonoBehaviour
     {
         if (_cameraTransform.position.y < playerTransform.position.y)
         {
-            _cameraOffset = new Vector3(_cameraTransform.position.x, playerTransform.position.y, _cameraTransform.position.z - 10);
+            _cameraOffset = new Vector3(_cameraTransform.position.x, playerTransform.position.y, _cameraTransform.position.z);
             _cameraTransform.position = _cameraOffset;
         }
     }
