@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4076312626922297160}
   - component: {fileID: 4076312626922297161}
   - component: {fileID: 4076312626922297162}
-  - component: {fileID: 5984119667378830799}
+  - component: {fileID: 7371863157488957069}
   m_Layer: 0
   m_Name: BreakablePlatform
   m_TagString: Untagged
@@ -118,7 +118,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 72
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -126,7 +126,7 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
---- !u!114 &5984119667378830799
+--- !u!114 &7371863157488957069
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,4 +138,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f58c014a117b6c478dad36871481e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platform: {fileID: 11400000, guid: 582e2b26b4088de46a616ae2323e6134, type: 2}
+  _deathZone: {fileID: 4187887200327275672, guid: f8a347d16a533a14b9a441fa88637ae3, type: 3}
+  _objectPool: {fileID: 6519838860503699158, guid: 9fe2580c2515f1f45bde475fc709534b, type: 3}
+  _platform: {fileID: 11400000, guid: 582e2b26b4088de46a616ae2323e6134, type: 2}

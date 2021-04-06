@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private UIManager _uiManager;
+    
     private Camera _camera;
     
     private Transform _playerTransform;
     
     private Rigidbody2D _rigidbody;
-    
+
     private PlayerInputListener _playerInput;
     
     private Vector3 _newPosition;
@@ -16,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _screenBounds;
 
     private float _screenWidth;
+    private float _topScore = 0f;
     private const float SPEED = 10f;
     
     private void Awake()
@@ -23,6 +26,7 @@ public class PlayerController : MonoBehaviour
         _playerInput = GetComponent<PlayerInputListener>();
         _playerTransform = GetComponent<Transform>();
         _rigidbody = GetComponent<Rigidbody2D>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         _playerInput.OnMove += CalculateHorizontalMovement;
         _playerInput.OnStop += CalculateHorizontalMovement; 
@@ -50,17 +54,11 @@ public class PlayerController : MonoBehaviour
             if (_newPosition.x > 0)
             {
                 _rigidbody.AddForce(Vector2.right * SPEED, ForceMode2D.Force);
-                /*_currentPosition = transform.position;
-                _currentPosition.x += SPEED * Time.deltaTime;
-                transform.position = _currentPosition;*/
             }
             
             else if (_newPosition.x < 0)
             {
                 _rigidbody.AddForce(Vector2.left * SPEED, ForceMode2D.Force);
-                /*_currentPosition = transform.position;
-                _currentPosition.x += -SPEED * Time.deltaTime;
-                transform.position = _currentPosition;*/
             }
         }
     }
@@ -68,11 +66,16 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         KeepPlayerOnScreen();
+
+        if (transform.position.y > _topScore)
+        {
+            _topScore = transform.position.y;
+            _uiManager.UpdateScore(_topScore);
+        }
     }
-    
+
     private void CalculateHorizontalMovement(Vector2 position)
     {
-        //Pegar o input no update e trabalhar ele no fixedupdate
         _newPosition = _camera.ScreenToWorldPoint(position);
     }
     

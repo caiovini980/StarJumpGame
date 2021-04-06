@@ -46,11 +46,6 @@ public class PlayerInputListener : MonoBehaviour
         OnStop?.Invoke(_inputPosition);
     }
 
-    private PlayerInputs CreateInputsStruct()
-    {
-        return new PlayerInputs(_inputPosition);
-    }
-
     private void ClearInputs()
     {
         _inputPosition = Vector2.zero;

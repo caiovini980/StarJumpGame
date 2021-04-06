@@ -33,6 +33,14 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)""
+                },
+                {
+                    ""name"": ""BreakPlatform"",
+                    ""type"": ""Button"",
+                    ""id"": ""8cc3c483-3eb7-41ec-9979-2929d32911e7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -79,6 +87,17 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
                     ""action"": ""MoveEnd"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f79baeb1-373e-4483-ae6a-3dfa0a39560b"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BreakPlatform"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -89,6 +108,7 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
         m_PlayerMain = asset.FindActionMap("PlayerMain", throwIfNotFound: true);
         m_PlayerMain_MoveStart = m_PlayerMain.FindAction("MoveStart", throwIfNotFound: true);
         m_PlayerMain_MoveEnd = m_PlayerMain.FindAction("MoveEnd", throwIfNotFound: true);
+        m_PlayerMain_BreakPlatform = m_PlayerMain.FindAction("BreakPlatform", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -140,12 +160,14 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
     private IPlayerMainActions m_PlayerMainActionsCallbackInterface;
     private readonly InputAction m_PlayerMain_MoveStart;
     private readonly InputAction m_PlayerMain_MoveEnd;
+    private readonly InputAction m_PlayerMain_BreakPlatform;
     public struct PlayerMainActions
     {
         private @PlayerMovementInputs m_Wrapper;
         public PlayerMainActions(@PlayerMovementInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @MoveStart => m_Wrapper.m_PlayerMain_MoveStart;
         public InputAction @MoveEnd => m_Wrapper.m_PlayerMain_MoveEnd;
+        public InputAction @BreakPlatform => m_Wrapper.m_PlayerMain_BreakPlatform;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMain; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -161,6 +183,9 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
                 @MoveEnd.started -= m_Wrapper.m_PlayerMainActionsCallbackInterface.OnMoveEnd;
                 @MoveEnd.performed -= m_Wrapper.m_PlayerMainActionsCallbackInterface.OnMoveEnd;
                 @MoveEnd.canceled -= m_Wrapper.m_PlayerMainActionsCallbackInterface.OnMoveEnd;
+                @BreakPlatform.started -= m_Wrapper.m_PlayerMainActionsCallbackInterface.OnBreakPlatform;
+                @BreakPlatform.performed -= m_Wrapper.m_PlayerMainActionsCallbackInterface.OnBreakPlatform;
+                @BreakPlatform.canceled -= m_Wrapper.m_PlayerMainActionsCallbackInterface.OnBreakPlatform;
             }
             m_Wrapper.m_PlayerMainActionsCallbackInterface = instance;
             if (instance != null)
@@ -171,6 +196,9 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
                 @MoveEnd.started += instance.OnMoveEnd;
                 @MoveEnd.performed += instance.OnMoveEnd;
                 @MoveEnd.canceled += instance.OnMoveEnd;
+                @BreakPlatform.started += instance.OnBreakPlatform;
+                @BreakPlatform.performed += instance.OnBreakPlatform;
+                @BreakPlatform.canceled += instance.OnBreakPlatform;
             }
         }
     }
@@ -179,5 +207,6 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
     {
         void OnMoveStart(InputAction.CallbackContext context);
         void OnMoveEnd(InputAction.CallbackContext context);
+        void OnBreakPlatform(InputAction.CallbackContext context);
     }
 }
