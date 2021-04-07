@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6440004621157736468}
   - component: {fileID: 6440004621157736471}
   - component: {fileID: 9052246610794596718}
+  - component: {fileID: 1521498468895319564}
   m_Layer: 0
   m_Name: BoostPlatform
   m_TagString: Untagged
@@ -138,5 +139,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a68fb2cbf166b845bab3c6063199209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 5572733901002890108, guid: b312a8c03b6f1664786d308b5c79e4d5, type: 3}
   _platform: {fileID: 11400000, guid: 881099122f647694fae4d771a8adcf5d, type: 2}
+--- !u!114 &1521498468895319564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6440004621157736470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b61fc2118a60e8428945c9b422e4d3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

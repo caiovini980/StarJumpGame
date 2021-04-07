@@ -349,7 +349,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -549,9 +549,13 @@ MonoBehaviour:
   player: {fileID: 1675894466}
   firstPlatform: {fileID: 763019215}
   _pooler: {fileID: 778202724}
-  _prefab: {fileID: 6002822015868971601, guid: b410daebb47b18d44bda2dae50024c80, type: 3}
-  _poolSize: 10
+  _normalPrefab: {fileID: 6002822015868971601, guid: b410daebb47b18d44bda2dae50024c80, type: 3}
+  _breakablePrefab: {fileID: 4076312626922297163, guid: 03280814e0cc3e145a31579bb91ea49d, type: 3}
+  _boostPrefab: {fileID: 6440004621157736470, guid: 3fc9b92a6ffe2ff4190380492909c217, type: 3}
+  _deathPrefab: {fileID: 3479312434962906381, guid: e83f724929730ba49859184886c384d4, type: 3}
   _uiManager: {fileID: 1514523687}
+  _canSpawnSpecialPlatform: 1
+  _hasSpawnedDeathPlatform: 0
 --- !u!4 &1547111278
 Transform:
   m_ObjectHideFlags: 0
@@ -578,7 +582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15313021e44f5b94a954e00fee6d0cf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringSeed: teste
+  stringSeed: "o paulo \xE9 gay"
   generateRandomSeed: 1
   seed: 0
 --- !u!1 &1675894466 stripped
@@ -842,6 +846,22 @@ PrefabInstance:
     - target: {fileID: 5572733901002890104, guid: b312a8c03b6f1664786d308b5c79e4d5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5572733901002890106, guid: b312a8c03b6f1664786d308b5c79e4d5, type: 3}
+      propertyPath: m_Size.x
+      value: 0.504859
+      objectReference: {fileID: 0}
+    - target: {fileID: 5572733901002890106, guid: b312a8c03b6f1664786d308b5c79e4d5, type: 3}
+      propertyPath: m_Size.y
+      value: 0.071462184
+      objectReference: {fileID: 0}
+    - target: {fileID: 5572733901002890106, guid: b312a8c03b6f1664786d308b5c79e4d5, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.0014654398
+      objectReference: {fileID: 0}
+    - target: {fileID: 5572733901002890106, guid: b312a8c03b6f1664786d308b5c79e4d5, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.40231347
       objectReference: {fileID: 0}
     - target: {fileID: 5572733901002890108, guid: b312a8c03b6f1664786d308b5c79e4d5, type: 3}
       propertyPath: m_Name

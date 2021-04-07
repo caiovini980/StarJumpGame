@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4076312626922297161}
   - component: {fileID: 4076312626922297162}
   - component: {fileID: 7371863157488957069}
+  - component: {fileID: 187333587954900110}
   m_Layer: 0
   m_Name: BreakablePlatform
   m_TagString: Untagged
@@ -138,5 +139,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f58c014a117b6c478dad36871481e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 5572733901002890108, guid: b312a8c03b6f1664786d308b5c79e4d5, type: 3}
   _platform: {fileID: 11400000, guid: 582e2b26b4088de46a616ae2323e6134, type: 2}
+--- !u!114 &187333587954900110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4076312626922297163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b61fc2118a60e8428945c9b422e4d3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
