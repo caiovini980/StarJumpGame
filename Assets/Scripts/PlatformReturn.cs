@@ -14,6 +14,7 @@ public class PlatformReturn : MonoBehaviour
     {
         if (_objectPooler != null)
         {
+            Debug.Log("Returning a platform");
             _objectPooler.ReturnGameObject(gameObject);
         }
     }

@@ -8,8 +8,23 @@ public abstract class PlatformBase : MonoBehaviour
 
     private float _collisionVelocity;
 
-    [SerializeField] private GameObject _deathZone;
+    private const string PLAYER_NAME = "Player";
+
+    private GameObject _player;
     [SerializeField] private PlatformType _type { get; set; }
+
+    private void Awake()
+    {
+        _player = GameObject.Find(PLAYER_NAME);
+    }
+
+    private void Update()
+    {
+        if (transform.position.y < _player.transform.position.y - 5f)
+        {
+            gameObject.SetActive(false);
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

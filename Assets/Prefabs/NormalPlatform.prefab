@@ -140,8 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a68fb2cbf166b845bab3c6063199209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deathZone: {fileID: 4187887200327275672, guid: f8a347d16a533a14b9a441fa88637ae3, type: 3}
-  _objectPool: {fileID: 6519838860503699158, guid: 9fe2580c2515f1f45bde475fc709534b, type: 3}
+  _player: {fileID: 5572733901002890108, guid: b312a8c03b6f1664786d308b5c79e4d5, type: 3}
   _platform: {fileID: 11400000, guid: 5056225629f248e4cb95cb9ec019bd69, type: 2}
 --- !u!114 &7888352680509546814
 MonoBehaviour:
