@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -140,8 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a68fb2cbf166b845bab3c6063199209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 5572733901002890108, guid: b312a8c03b6f1664786d308b5c79e4d5, type: 3}
   _platform: {fileID: 11400000, guid: 5056225629f248e4cb95cb9ec019bd69, type: 2}
+  _shakeData: {fileID: 11400000, guid: 31d62fbea28c50d47add1ebb8e8df925, type: 2}
 --- !u!114 &7888352680509546814
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private GameObject _deathPoint;
+    
     private UIManager _uiManager;
+
+    private AnimationManager _animationManager;
     
     private Camera _camera;
     
@@ -26,6 +30,8 @@ public class PlayerController : MonoBehaviour
         _playerInput = GetComponent<PlayerInputListener>();
         _playerTransform = GetComponent<Transform>();
         _rigidbody = GetComponent<Rigidbody2D>();
+        
+        _animationManager = GameObject.Find("AnimationManager").GetComponent<AnimationManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         _playerInput.OnMove += CalculateHorizontalMovement;
@@ -72,6 +78,11 @@ public class PlayerController : MonoBehaviour
             _topScore = transform.position.y;
             _uiManager.UpdateScore(_topScore);
         }
+        
+        if (transform.position.y < _deathPoint.transform.position.y - 5f)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void CalculateHorizontalMovement(Vector2 position)
@@ -83,12 +94,12 @@ public class PlayerController : MonoBehaviour
     {
         if (_playerTransform.position.x > _newScreenBounds.x)
         {
-            _playerTransform.position = new Vector2(_newScreenBounds.x, transform.position.y);
+            _playerTransform.position = new Vector2(-_newScreenBounds.x, transform.position.y);
         }
         
         else if (_playerTransform.position.x < -_newScreenBounds.x)
         {
-            _playerTransform.position = new Vector2(-_newScreenBounds.x, transform.position.y);
+            _playerTransform.position = new Vector2(_newScreenBounds.x, transform.position.y);
         }
     }
 }

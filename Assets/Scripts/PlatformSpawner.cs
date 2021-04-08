@@ -142,11 +142,7 @@ public class PlatformSpawner : MonoBehaviour
                 else
                 {
                     _pooler.GetObject(_deathPrefab).transform.position = _spawnPlatformPosition;
-                    Vector3 deathPlatformPosition = _pooler.GetObject(_deathPrefab).transform.position;
-
                     _hasSpawnedDeathPlatform = true;
-                    SpawnPlatformWithAnother(_normalPrefab, -deathPlatformPosition);
-                    
                     _canSpawnSpecialPlatform = false;
                 }
             }
@@ -165,12 +161,6 @@ public class PlatformSpawner : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void SpawnPlatformWithAnother(GameObject platform, Vector3 position)
-    {
-        _pooler.GetObject(platform).transform.position = position;
-        _hasSpawnedDeathPlatform = false;
     }
 
     private float GetRandomValueFromZeroToHundred()

@@ -7,15 +7,20 @@ public abstract class PlatformBase : MonoBehaviour
     protected abstract void PlatformEffect(Rigidbody2D characterInPlatform);
 
     private float _collisionVelocity;
+    
+    private GameObject _player;
+    
+    private AnimationManager _animationManager;
 
     private const string PLAYER_NAME = "Player";
-
-    private GameObject _player;
+    private const string ANIM_MANAGER_NAME = "AnimationManager";
+    
     [SerializeField] private PlatformType _type { get; set; }
 
     private void Awake()
     {
         _player = GameObject.Find(PLAYER_NAME);
+        _animationManager = GameObject.Find(ANIM_MANAGER_NAME).GetComponent<AnimationManager>();
     }
 
     private void Update()
@@ -37,6 +42,7 @@ public abstract class PlatformBase : MonoBehaviour
             if (playerRigidbody != null)
             {
                 PlatformEffect(playerRigidbody);
+                _animationManager.PlayPlayerJumpAnimation();
             }
         }
     }

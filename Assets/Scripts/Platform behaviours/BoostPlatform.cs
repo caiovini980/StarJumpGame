@@ -1,11 +1,20 @@
+using System;
 using UnityEngine;
 
 public class BoostPlatform : PlatformBase
 {
     [SerializeField] private Platform _platform = default;
-
-    private Vector3 _velocity;
+    [SerializeField] private ShakeTransformEventData _shakeData;
     
+    private ShakeTransform _shakeTransform;
+    
+    private Vector3 _velocity;
+
+    private void Start()
+    {
+        _shakeTransform = Camera.main.GetComponentInParent<ShakeTransform>();
+    }
+
     private void Jump(Rigidbody2D rigidbody)
     {
         _velocity = rigidbody.velocity;
@@ -17,6 +26,7 @@ public class BoostPlatform : PlatformBase
     protected override void PlatformEffect(Rigidbody2D characterInPlatform)
     {
         Jump(characterInPlatform);
+        _shakeTransform.AddShakeEvent(_shakeData);
     }
     
 }
