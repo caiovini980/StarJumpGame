@@ -7,12 +7,19 @@ public class BoostPlatform : PlatformBase
     [SerializeField] private ShakeTransformEventData _shakeData;
     
     private ShakeTransform _shakeTransform;
-    
+
     private Vector3 _velocity;
 
-    private void Start()
+    protected override void Initialize()
     {
         _shakeTransform = Camera.main.GetComponentInParent<ShakeTransform>();
+    }
+
+    protected override void PlatformEffect(Rigidbody2D characterInPlatform)
+    {
+        Jump(characterInPlatform);
+        _shakeTransform.AddShakeEvent(_shakeData);
+        _sound.Play();
     }
 
     private void Jump(Rigidbody2D rigidbody)
@@ -22,11 +29,4 @@ public class BoostPlatform : PlatformBase
         _velocity.x -= _velocity.x / 3;
         rigidbody.velocity = _velocity;
     }
-    
-    protected override void PlatformEffect(Rigidbody2D characterInPlatform)
-    {
-        Jump(characterInPlatform);
-        _shakeTransform.AddShakeEvent(_shakeData);
-    }
-    
 }

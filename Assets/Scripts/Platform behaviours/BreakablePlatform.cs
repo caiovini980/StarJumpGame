@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BreakablePlatform : PlatformBase
@@ -6,6 +7,17 @@ public class BreakablePlatform : PlatformBase
 
     private Vector3 _velocity;
     
+    protected override void Initialize()
+    {
+    }
+    
+    protected override void PlatformEffect(Rigidbody2D characterInPlatform)
+    {
+        Jump(characterInPlatform);
+        _sound.Play();
+        StartCoroutine(WaitToDeactivate(0.3f));
+    }
+    
     private void Jump(Rigidbody2D rigidbody)
     {
         _velocity = rigidbody.velocity;
@@ -13,10 +25,10 @@ public class BreakablePlatform : PlatformBase
         _velocity.x -= _velocity.x / 3;
         rigidbody.velocity = _velocity;
     }
-    
-    protected override void PlatformEffect(Rigidbody2D characterInPlatform)
+
+    IEnumerator WaitToDeactivate(float waitTime)
     {
-        Jump(characterInPlatform);
+        yield return new WaitForSeconds(waitTime);
         gameObject.SetActive(false);
     }
 }

@@ -26,7 +26,7 @@ public class PlatformSpawner : MonoBehaviour
     private float _timeSinceSpawn;
 
     public bool _canSpawnSpecialPlatform = true;
-    public bool _hasSpawnedDeathPlatform = false;
+    public bool _canSpawnDeathPlatform = false;
 
     private void Start()
     {
@@ -38,12 +38,11 @@ public class PlatformSpawner : MonoBehaviour
     {
         float distanceToThePlatform = Vector2.Distance(player.transform.position, _spawnPlatformPosition);
 
-        if (_hasSpawnedDeathPlatform)
+        if (_canSpawnDeathPlatform)
         {
-            if (distanceToThePlatform < _distanceToSpawn)
+            if (distanceToThePlatform < _distanceToSpawn - 2)
             {
                 SpawnPlatforms();
-                _hasSpawnedDeathPlatform = false;
             }
         }
 
@@ -61,6 +60,7 @@ public class PlatformSpawner : MonoBehaviour
             if (_timeSinceSpawn >= _timeToSpawnAgain)
             {
                 _canSpawnSpecialPlatform = true;
+                _canSpawnDeathPlatform = true;
             }
         }
     }
@@ -142,7 +142,7 @@ public class PlatformSpawner : MonoBehaviour
                 else
                 {
                     _pooler.GetObject(_deathPrefab).transform.position = _spawnPlatformPosition;
-                    _hasSpawnedDeathPlatform = true;
+                    _canSpawnDeathPlatform = false;
                     _canSpawnSpecialPlatform = false;
                 }
             }

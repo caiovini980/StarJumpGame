@@ -6,6 +6,7 @@ using UnityEngine;
 public class AnimationManager : MonoBehaviour
 {
     [SerializeField] private GameObject _player;
+    [SerializeField] private ParticleSystem _playerParticle;
 
     private Animator _playerAnimator;
 
@@ -16,6 +17,12 @@ public class AnimationManager : MonoBehaviour
     private void Awake()
     {
         _playerAnimator = _player.GetComponent<Animator>();
+    }
+
+    public void PlayPlayerParticleSystemAt(Vector2 position)
+    {
+        _playerParticle.transform.position = position;
+        _playerParticle.Play();
     }
     
     public void PlayPlayerJumpAnimation()

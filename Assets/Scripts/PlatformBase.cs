@@ -4,23 +4,30 @@ using UnityEngine;
 
 public abstract class PlatformBase : MonoBehaviour
 {
+    protected abstract void Initialize();
     protected abstract void PlatformEffect(Rigidbody2D characterInPlatform);
 
     private float _collisionVelocity;
     
-    private GameObject _player;
+    private PlayerController _player;
+
+    protected AudioSource _sound;
     
     private AnimationManager _animationManager;
 
-    private const string PLAYER_NAME = "Player";
-    private const string ANIM_MANAGER_NAME = "AnimationManager";
-    
-    [SerializeField] private PlatformType _type { get; set; }
+    [SerializeField] private PlatformType _type;
 
     private void Awake()
     {
-        _player = GameObject.Find(PLAYER_NAME);
-        _animationManager = GameObject.Find(ANIM_MANAGER_NAME).GetComponent<AnimationManager>();
+        _sound = GetComponent<AudioSource>();
+    }
+
+    private void Start()
+    {
+        _player = GameManager.sInstance.Player;
+        _animationManager = GameManager.sInstance.AnimationManager;
+            
+        Initialize();
     }
 
     private void Update()
@@ -43,6 +50,7 @@ public abstract class PlatformBase : MonoBehaviour
             {
                 PlatformEffect(playerRigidbody);
                 _animationManager.PlayPlayerJumpAnimation();
+                _animationManager.PlayPlayerParticleSystemAt(collision.transform.position);
             }
         }
     }

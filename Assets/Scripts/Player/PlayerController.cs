@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -6,7 +7,7 @@ public class PlayerController : MonoBehaviour
     
     private UIManager _uiManager;
 
-    private AnimationManager _animationManager;
+    private AudioManager _audioManager;
     
     private Camera _camera;
     
@@ -31,8 +32,8 @@ public class PlayerController : MonoBehaviour
         _playerTransform = GetComponent<Transform>();
         _rigidbody = GetComponent<Rigidbody2D>();
         
-        _animationManager = GameObject.Find("AnimationManager").GetComponent<AnimationManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _audioManager = GameManager.sInstance.AudioManager;
 
         _playerInput.OnMove += CalculateHorizontalMovement;
         _playerInput.OnStop += CalculateHorizontalMovement; 
@@ -81,7 +82,8 @@ public class PlayerController : MonoBehaviour
         
         if (transform.position.y < _deathPoint.transform.position.y - 5f)
         {
-            gameObject.SetActive(false);
+            _audioManager.PlayGameOverSound();
+            StartCoroutine(WaitToDeactivate(0.4f));
         }
     }
 
@@ -101,5 +103,11 @@ public class PlayerController : MonoBehaviour
         {
             _playerTransform.position = new Vector2(_newScreenBounds.x, transform.position.y);
         }
+    }
+    
+    IEnumerator WaitToDeactivate(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        gameObject.SetActive(false);
     }
 }
