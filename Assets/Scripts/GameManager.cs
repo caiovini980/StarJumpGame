@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerController _player;
     [SerializeField] private AnimationManager _animationManager;
     [SerializeField] private AudioManager _audioManager;
+    [SerializeField] private UIManager _uiManager;
 
     private void Awake()
     {
@@ -46,4 +47,5 @@ public class GameManager : MonoBehaviour
     public PlayerController Player => _player;
     public AnimationManager AnimationManager => _animationManager;
     public AudioManager AudioManager => _audioManager;
+    public UIManager UIManager => _uiManager;
 }

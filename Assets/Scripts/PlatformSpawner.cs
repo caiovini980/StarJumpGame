@@ -8,30 +8,53 @@ using Random = UnityEngine.Random;
 public class PlatformSpawner : MonoBehaviour
 {
     public GameObject player;
-    public GameObject firstPlatform;
     
-    [SerializeField] private ObjectPooler _pooler;
-    [SerializeField] private GameObject _normalPrefab;
-    [SerializeField] private GameObject _breakablePrefab;
-    [SerializeField] private GameObject _boostPrefab;
-    [SerializeField] private GameObject _deathPrefab;
-    [SerializeField] private UIManager _uiManager;
-    
-    private Vector2 _spawnPlatformPosition;
-    private Vector2 _screenBoundsX;
-
-    private int _distanceToSpawn = 5;
-
-    private float _timeToSpawnAgain = 10f;
-    private float _timeSinceSpawn;
-
     public bool _canSpawnSpecialPlatform = true;
     public bool _canSpawnDeathPlatform = false;
+
+    [SerializeField] private UIManager _uiManager;
+    [SerializeField] private ObjectPooler _pooler;
+    
+    private GameObject _normalPrefab;
+    private GameObject _breakablePrefab;
+    private GameObject _boostPrefab;
+    private GameObject _deathPrefab;
+    
+    private int _distanceToSpawn = 5;
+    private float _timeToSpawnAgain = 10f;
+    private float _timeSinceSpawn;
+    
+    public GameObject firstPlatform;
+    public List<GameStages> stages = new List<GameStages>();
+
+    private Vector2 _spawnPlatformPosition;
+    private Vector2 _screenBoundsX;
+    
+    private List<StageSettings> stageSettings = new List<StageSettings>();
+    private List<PlatformsSpawnSettings> availablePlatforms = new List<PlatformsSpawnSettings>();
+    private List<GameObject> platformsToSpawn = new List<GameObject>();
 
     private void Start()
     {
         _screenBoundsX = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Camera.main.transform.position.y));
         _spawnPlatformPosition = new Vector2(firstPlatform.transform.position.x, firstPlatform.transform.position.y + 0.5f);
+
+        foreach (GameStages stage in stages)
+        {
+            stageSettings = stage.stageSettings;
+
+            foreach (StageSettings settings in stageSettings)
+            {
+                availablePlatforms = settings.availablePlatforms;
+            }
+        }
+        
+        _normalPrefab = stages[0].stageSettings[0].availablePlatforms[0].plataformPrefab;
+        _breakablePrefab = stages[1].stageSettings[0].availablePlatforms[1].plataformPrefab;
+        _boostPrefab = stages[2].stageSettings[0].availablePlatforms[2].plataformPrefab;
+        _deathPrefab = stages[3].stageSettings[0].availablePlatforms[3].plataformPrefab;
+        
+        Debug.Log(_breakablePrefab.name);
     }
 
     private void Update()
@@ -61,6 +84,7 @@ public class PlatformSpawner : MonoBehaviour
             {
                 _canSpawnSpecialPlatform = true;
                 _canSpawnDeathPlatform = true;
+                _timeSinceSpawn = 0f;
             }
         }
     }
@@ -68,16 +92,19 @@ public class PlatformSpawner : MonoBehaviour
     private void SpawnPlatforms()
     {
         _spawnPlatformPosition = new Vector2(GetRandomPositionX(), _spawnPlatformPosition.y + 1f);
-        
+
+        //********** MAGIC NUMBERS **********
         //Aparece muitas plataformas normais
-        if (_uiManager.GetScore() <= 500)
+        if (_uiManager.GetScore() <= stages[0].stageSettings[0].endPoint)
         {
             _pooler.GetObject(_normalPrefab).transform.position = _spawnPlatformPosition;
         }
 
         //Aparece menos plataformas normais e aparecem plataformas que quebram
-        if (_uiManager.GetScore() > 500 && _uiManager.GetScore() <= 1500)
+        if (_uiManager.GetScore() > stages[1].stageSettings[0].startPoint &&
+            _uiManager.GetScore() <= stages[1].stageSettings[0].endPoint)
         {
+            Debug.Log("ok brabo");
             if (GetRandomValueFromZeroToHundred() <= 50)
             {
                 _pooler.GetObject(_normalPrefab).transform.position = _spawnPlatformPosition;
@@ -87,22 +114,23 @@ public class PlatformSpawner : MonoBehaviour
                 _pooler.GetObject(_breakablePrefab).transform.position = _spawnPlatformPosition;
             }
         }
-        
+
         //Aparece plataformas de boost em uma frequencia bem menor
-        if (_uiManager.GetScore() > 1500 && _uiManager.GetScore() <= 4000)
+        if (_uiManager.GetScore() > stages[2].stageSettings[0].startPoint &&
+            _uiManager.GetScore() <= stages[2].stageSettings[0].endPoint)
         {
             float randomValue = GetRandomValueFromZeroToHundred();
-            
+
             if (randomValue <= 40)
             {
                 _pooler.GetObject(_normalPrefab).transform.position = _spawnPlatformPosition;
             }
-            
-            else if (randomValue > 40 && randomValue <= 80 )
+
+            else if (randomValue > 40 && randomValue <= 80)
             {
                 _pooler.GetObject(_breakablePrefab).transform.position = _spawnPlatformPosition;
             }
-            
+
             else if (randomValue > 80 && _canSpawnSpecialPlatform)
             {
                 _pooler.GetObject(_boostPrefab).transform.position = _spawnPlatformPosition;
@@ -114,9 +142,10 @@ public class PlatformSpawner : MonoBehaviour
                 _pooler.GetObject(_breakablePrefab).transform.position = _spawnPlatformPosition;
             }
         }
-        
-        //Aparecem tambem as plataformas que matam o player, sempre acompanhadas de uma plataforma normal
-        if (_uiManager.GetScore() > 4000)
+    
+    //Aparecem tambem as plataformas que matam o player, sempre acompanhadas de uma plataforma normal
+        if (_uiManager.GetScore() > stages[3].stageSettings[0].startPoint &&
+            _uiManager.GetScore() >= stages[3].stageSettings[0].endPoint)
         {
             float randomValue = GetRandomValueFromZeroToHundred();
             

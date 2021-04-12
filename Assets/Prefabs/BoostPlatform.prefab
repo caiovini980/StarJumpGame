@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a68fb2cbf166b845bab3c6063199209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 0
+  _type: 1
   _platform: {fileID: 11400000, guid: 881099122f647694fae4d771a8adcf5d, type: 2}
   _shakeData: {fileID: 11400000, guid: db48c0d943392774daa992dde41358d7, type: 2}
 --- !u!114 &1521498468895319564

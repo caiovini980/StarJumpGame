@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BoostPlatform : PlatformBase
 {
@@ -8,18 +10,32 @@ public class BoostPlatform : PlatformBase
     
     private ShakeTransform _shakeTransform;
 
+    private Camera _camera;
+
     private Vector3 _velocity;
 
     protected override void Initialize()
     {
-        _shakeTransform = Camera.main.GetComponentInParent<ShakeTransform>();
+        _camera = Camera.main;
+        _shakeTransform = _camera.GetComponentInParent<ShakeTransform>();
     }
 
     protected override void PlatformEffect(Rigidbody2D characterInPlatform)
     {
-        Jump(characterInPlatform);
-        _shakeTransform.AddShakeEvent(_shakeData);
-        _sound.Play();
+        if (_platform.jumpSpeed > 10)
+        {
+            Time.timeScale = 0f;
+            _animationManager.PlayBoostParticleSystemAt(characterInPlatform.transform.position);
+            _uiManager.MakeDarkerScreen();
+            Jump(characterInPlatform);
+            _shakeTransform.AddShakeEvent(_shakeData);
+            _sound.Play();
+        }
+        else
+        {
+            Jump(characterInPlatform);
+            _sound.Play();
+        }
     }
 
     private void Jump(Rigidbody2D rigidbody)
