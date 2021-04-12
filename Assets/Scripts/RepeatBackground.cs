@@ -5,28 +5,36 @@ using UnityEngine;
 
 public class RepeatBackground : MonoBehaviour
 {
-    private Vector2 _startPosition;
-    private float _repeatHeight;
-    private PlayerController _player;
+    private Camera _camera;
+    
+    [SerializeField] private Transform background1;
+    [SerializeField] private Transform background2;
 
+    private float _size;
+    
     private void Awake()
     {
-        _repeatHeight = GetComponent<BoxCollider2D>().size.y / 2;
+        _camera = Camera.main;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        _startPosition = transform.position;
-        _player = GameManager.sInstance.Player;
+        _size = background1.GetComponent<BoxCollider2D>().size.y;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        if (_player.transform.position.y < _startPosition.y + _repeatHeight)
+        if (_camera.transform.position.y >= background2.position.y)
         {
-            Debug.Log("SURPRESA");
+            background1.position = new Vector3(background1.position.x, background2.position.y + _size, background1.position.z);
+            SwitchBackground();
         }
+    }
+
+    private void SwitchBackground()
+    {
+        Transform temporaryBackground = background1;
+        background1 = background2;
+        background2 = temporaryBackground;
     }
 }

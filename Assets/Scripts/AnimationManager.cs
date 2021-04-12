@@ -8,6 +8,7 @@ public class AnimationManager : MonoBehaviour
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _darkScreenUI;
     [SerializeField] private ParticleSystem _playerParticle;
+    [SerializeField] private ParticleSystem _breakableParticle;
     [SerializeField] private ParticleSystem _boostParticle;
 
     private Animator _playerAnimator;
@@ -34,6 +35,12 @@ public class AnimationManager : MonoBehaviour
     {
         _boostParticle.transform.position = position;
         _boostParticle.Play();
+    }
+    
+    public void PlayBreakableParticleSystemAt(Vector2 position)
+    {
+        _breakableParticle.transform.position = position;
+        _breakableParticle.Play();
     }
     
     public void StopBoostParticleSystem()

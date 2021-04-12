@@ -22,12 +22,17 @@ public class BoostPlatform : PlatformBase
 
     protected override void PlatformEffect(Rigidbody2D characterInPlatform)
     {
-        if (_platform.jumpSpeed > 10)
+        if (_type == PlatformType.BOOST)
         {
             Time.timeScale = 0f;
+            
             _animationManager.PlayBoostParticleSystemAt(characterInPlatform.transform.position);
+            _animationManager.PlayPlayerParticleSystemAt(characterInPlatform.transform.position);
+            
             _uiManager.MakeDarkerScreen();
+            
             Jump(characterInPlatform);
+            
             _shakeTransform.AddShakeEvent(_shakeData);
             _sound.Play();
         }

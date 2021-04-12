@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour
         if (transform.position.y < _deathPoint.transform.position.y - 5f)
         {
             _audioManager.PlayGameOverSound();
+            GameManager.sInstance.GameOver();
             StartCoroutine(WaitToDeactivate(0.4f));
         }
     }

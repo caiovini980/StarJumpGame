@@ -4,12 +4,14 @@ using UnityEngine;
 
 public abstract class PlatformBase : MonoBehaviour
 {
+    public int streak = 0;
+    
     protected abstract void Initialize();
     protected abstract void PlatformEffect(Rigidbody2D characterInPlatform);
 
     private float _collisionVelocity;
     private float _timeToNormalizeGame = 1f;
-    private float _timeSinceGamePaused;
+    private float _timeSinceGamePaused = 0f;
     
     private PlayerController _player;
     
@@ -19,7 +21,7 @@ public abstract class PlatformBase : MonoBehaviour
 
     protected AudioSource _sound;
     
-    [SerializeField] private PlatformType _type;
+    [SerializeField] protected PlatformType _type;
 
     private void Awake()
     {
@@ -42,16 +44,16 @@ public abstract class PlatformBase : MonoBehaviour
             gameObject.SetActive(false);
         }
 
-        if (Time.timeScale == 0f)
+        if (Time.timeScale == 0)
         {
             _timeSinceGamePaused += Time.unscaledDeltaTime;
             
             if (_timeSinceGamePaused >= _timeToNormalizeGame)
             {
-                Time.timeScale = 1f;
                 _timeSinceGamePaused = 0f;
                 _uiManager.MakeScreenNormal();
                 _animationManager.StopBoostParticleSystem();
+                Time.timeScale = 1f;
             }
         }
     }

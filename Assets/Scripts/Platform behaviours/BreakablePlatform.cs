@@ -29,6 +29,7 @@ public class BreakablePlatform : PlatformBase
     IEnumerator WaitToDeactivate(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
+        _animationManager.PlayBreakableParticleSystemAt(transform.position);
         gameObject.SetActive(false);
     }
 }

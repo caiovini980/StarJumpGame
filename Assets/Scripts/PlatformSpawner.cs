@@ -104,7 +104,6 @@ public class PlatformSpawner : MonoBehaviour
         if (_uiManager.GetScore() > stages[1].stageSettings[0].startPoint &&
             _uiManager.GetScore() <= stages[1].stageSettings[0].endPoint)
         {
-            Debug.Log("ok brabo");
             if (GetRandomValueFromZeroToHundred() <= 50)
             {
                 _pooler.GetObject(_normalPrefab).transform.position = _spawnPlatformPosition;

@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioManager _audioManager;
     [SerializeField] private UIManager _uiManager;
 
+    private float _currentHighScore;
+
     private void Awake()
     {
         if (sInstance != null)
@@ -23,10 +25,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameOver(GameObject player)
+    private void Start()
     {
-        player.SetActive(false);
+        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.GetFloat("HighScore", 0);
+    }
+
+    private void Update()
+    {
+        if (_uiManager.GetScore() >= PlayerPrefs.GetFloat("HighScore", 0))
+        {
+            Debug.Log("TABO TABO");
+            _uiManager.ActivateTrophyIcon();
+        }
+    }
+
+    public void GameOver()
+    {
+        _currentHighScore = _uiManager.GetScore();
+        if (_uiManager.GetScore() >= PlayerPrefs.GetFloat("HighScore", 0))
+        {
+            PlayerPrefs.SetFloat("HighScore", _currentHighScore);
+        }
         //Show game over panel
+        _uiManager.ShowGameOverPanel();
     }
 
     public void StartGame()
@@ -36,7 +58,17 @@ public class GameManager : MonoBehaviour
     
     public void ExitGame()
     {
-        
+        Application.Quit();
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public void PauseGame()
