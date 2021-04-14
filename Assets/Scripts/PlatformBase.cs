@@ -10,18 +10,14 @@ public abstract class PlatformBase : MonoBehaviour
     protected abstract void PlatformEffect(Rigidbody2D characterInPlatform);
 
     private float _collisionVelocity;
-    private float _timeToNormalizeGame = 1f;
-    private float _timeSinceGamePaused = 0f;
     
     private PlayerController _player;
     
     protected AnimationManager _animationManager;
 
-    protected UIManager _uiManager;
-
     protected AudioSource _sound;
     
-    [SerializeField] protected PlatformType _type;
+    //[SerializeField] protected PlatformType _type;
 
     private void Awake()
     {
@@ -32,7 +28,6 @@ public abstract class PlatformBase : MonoBehaviour
     {
         _player = GameManager.sInstance.Player;
         _animationManager = GameManager.sInstance.AnimationManager;
-        _uiManager = GameManager.sInstance.UIManager;
         
         Initialize();
     }
@@ -42,19 +37,6 @@ public abstract class PlatformBase : MonoBehaviour
         if (transform.position.y < _player.transform.position.y - 5f)
         {
             gameObject.SetActive(false);
-        }
-
-        if (Time.timeScale == 0)
-        {
-            _timeSinceGamePaused += Time.unscaledDeltaTime;
-            
-            if (_timeSinceGamePaused >= _timeToNormalizeGame)
-            {
-                _timeSinceGamePaused = 0f;
-                _uiManager.MakeScreenNormal();
-                _animationManager.StopBoostParticleSystem();
-                Time.timeScale = 1f;
-            }
         }
     }
 
@@ -74,9 +56,10 @@ public abstract class PlatformBase : MonoBehaviour
             }
         }
     }
-
+    
+    /*
     public PlatformType GetType()
     {
         return _type;
-    }
+    }*/
 }

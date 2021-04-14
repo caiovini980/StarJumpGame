@@ -1,18 +1,24 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText;
-    public Image darkScreenUI;
-    public GameObject trophyIcon;
-
-    [SerializeField] private RectTransform _gameOverPanel;
-    [SerializeField] private TextMeshProUGUI _highScoreText;
+    
+    [SerializeField] private GameObject _welcomePanel;
+    [SerializeField] private GameObject _trophyIcon;
+    [SerializeField] private GameObject _highScoreGameOverIcons; 
     [SerializeField] private GameObject _restartButton;
     [SerializeField] private GameObject _quitButton;
+
+    [SerializeField] private RectTransform _gameOverPanel;
+    [SerializeField] private RectTransform _mainMenuPanel;
+    [SerializeField] private RectTransform _title;
+    
+    [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private TextMeshProUGUI _highScoreText;
 
     private float _scoreAmount;
 
@@ -21,51 +27,64 @@ public class UIManager : MonoBehaviour
     private GameObject _highScoreTextGameObject;
     
     private Color _darkScreenColor;
+    
     // Start is called before the first frame update
     void Start()
     {
-        scoreText.text = "" + 00;
+        _scoreText.text = "" + 00;
         _animationManager = GameManager.sInstance.AnimationManager;
         _highScoreTextGameObject = _highScoreText.gameObject;
-        trophyIcon.SetActive(false);
+        
+        _trophyIcon.SetActive(false);
     }
 
     public void UpdateScore(float score)
     {
         _scoreAmount += score;
-        scoreText.text = "" + Mathf.Round(_scoreAmount / 10);
+        _scoreText.text = "" + Mathf.Round(_scoreAmount / 10);
     }
 
     public void ShowGameOverPanel()
     {
-        LeanTween.move(_gameOverPanel, Vector3.zero, 1f).setOnComplete(ShowHighScore);
+        LeanTween.move(_gameOverPanel, Vector3.zero, 0.5f).setOnComplete(ShowHighScore);
+    }
+
+    public void ShowWelcomeMessage()
+    {
+        _welcomePanel.SetActive(true);
+    }
+
+    public void HideWelcomeMessage()
+    {
+        Time.timeScale = 1f;
+        _welcomePanel.SetActive(false);
+    }
+
+    public void ShowHighScoreTextOnGameOver()
+    {
+        _highScoreGameOverIcons.SetActive(true);
     }
 
     public void ActivateTrophyIcon()
     {
-        trophyIcon.SetActive(true);
+        _trophyIcon.SetActive(true);
     }
-    
-    public void MakeDarkerScreen()
+
+    public void ShowMainMenuPanel()
     {
-        _darkScreenColor = darkScreenUI.color;
-        _animationManager.PlayDarkScreenAnimation();
-        darkScreenUI.color = _darkScreenColor;
+        LeanTween.move(_mainMenuPanel, Vector3.zero, 1f).setOnComplete(ShowTitle);
     }
-    
-    public void MakeScreenNormal()
+
+    private void ShowTitle()
     {
-        _darkScreenColor = darkScreenUI.color;
-        _darkScreenColor.a = 0.0f;
-        
-        //add more stuff if needed
-        darkScreenUI.color = _darkScreenColor;
+        LeanTween.moveY(_title, -200, 1.5f).setEaseOutBounce();
+        StartCoroutine(WaitToShowTitleParticles(0.6f));
     }
 
     private void ShowHighScore()
     {
         _highScoreText.text = PlayerPrefs.GetFloat("HighScore", 0).ToString();
-        LeanTween.scale(_highScoreTextGameObject, new Vector3(2f, 2f, 2f), 1f).setOnComplete(ReturnUIAnimationToNormal);
+        LeanTween.scale(_highScoreTextGameObject, new Vector3(1.5f, 1.5f, 1.5f), 0.5f).setOnComplete(ReturnUIAnimationToNormal);
     }
 
     private void ReturnUIAnimationToNormal()
@@ -75,18 +94,22 @@ public class UIManager : MonoBehaviour
 
     private void AnimationRestartButton()
     {
-        LeanTween.scale(_restartButton, new Vector3(1f, 1f, 1f), 0.7f).setOnComplete(AnimationQuitButton);
+        LeanTween.scale(_restartButton, new Vector3(1f, 1f, 1f), 0.3f).setOnComplete(AnimationReturnToMenuButton);
     }
     
-    private void AnimationQuitButton()
+    private void AnimationReturnToMenuButton()
     {
-        LeanTween.scale(_quitButton, new Vector3(1f, 1f, 1f), 0.7f);
+        LeanTween.scale(_quitButton, new Vector3(1f, 1f, 1f), 0.3f);
     }
 
     public float GetScore()
     {
-        return Int32.Parse(scoreText.text);
+        return Int32.Parse(_scoreText.text);
     }
 
-    
+    private IEnumerator WaitToShowTitleParticles(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        _animationManager.PlayTitleParticles();
+    }
 }

@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     private float _screenWidth;
     private float _topScore = 0f;
     private const float SPEED = 10f;
+    private const float TURN_SPEED = 15f;
     
     private void Awake()
     {
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour
         _playerTransform = GetComponent<Transform>();
         _rigidbody = GetComponent<Rigidbody2D>();
         
-        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _uiManager = GameManager.sInstance.UIManager;
         _audioManager = GameManager.sInstance.AudioManager;
 
         _playerInput.OnMove += CalculateHorizontalMovement;
@@ -60,11 +61,21 @@ public class PlayerController : MonoBehaviour
         {
             if (_newPosition.x > 0)
             {
+                if (_rigidbody.velocity.x < 0)
+                {
+                    _rigidbody.AddForce(Vector2.right * TURN_SPEED, ForceMode2D.Force);
+                }
+                
                 _rigidbody.AddForce(Vector2.right * SPEED, ForceMode2D.Force);
             }
             
             else if (_newPosition.x < 0)
             {
+                if (_rigidbody.velocity.x > 0)
+                {
+                    _rigidbody.AddForce(Vector2.left * TURN_SPEED, ForceMode2D.Force);
+                }
+                
                 _rigidbody.AddForce(Vector2.left * SPEED, ForceMode2D.Force);
             }
         }

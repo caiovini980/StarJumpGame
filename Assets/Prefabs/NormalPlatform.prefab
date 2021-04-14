@@ -143,7 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   streak: 0
   _type: 0
-  _platform: {fileID: 11400000, guid: 5056225629f248e4cb95cb9ec019bd69, type: 2}
+  _platform: {fileID: 11400000, guid: 85f05c4655d28c34ba669bef113a5314, type: 2}
   _shakeData: {fileID: 11400000, guid: 31d62fbea28c50d47add1ebb8e8df925, type: 2}
 --- !u!114 &7888352680509546814
 MonoBehaviour:

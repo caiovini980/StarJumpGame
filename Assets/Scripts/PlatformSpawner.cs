@@ -1,16 +1,10 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class PlatformSpawner : MonoBehaviour
 {
     public GameObject player;
-    
-    public bool _canSpawnSpecialPlatform = true;
-    public bool _canSpawnDeathPlatform = false;
 
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private ObjectPooler _pooler;
@@ -21,8 +15,6 @@ public class PlatformSpawner : MonoBehaviour
     private GameObject _deathPrefab;
     
     private int _distanceToSpawn = 5;
-    private float _timeToSpawnAgain = 10f;
-    private float _timeSinceSpawn;
     
     public GameObject firstPlatform;
     public List<GameStages> stages = new List<GameStages>();
@@ -53,39 +45,15 @@ public class PlatformSpawner : MonoBehaviour
         _breakablePrefab = stages[1].stageSettings[0].availablePlatforms[1].plataformPrefab;
         _boostPrefab = stages[2].stageSettings[0].availablePlatforms[2].plataformPrefab;
         _deathPrefab = stages[3].stageSettings[0].availablePlatforms[3].plataformPrefab;
-        
-        Debug.Log(_breakablePrefab.name);
     }
 
     private void Update()
     {
         float distanceToThePlatform = Vector2.Distance(player.transform.position, _spawnPlatformPosition);
 
-        if (_canSpawnDeathPlatform)
+        if (distanceToThePlatform < _distanceToSpawn + 2)
         {
-            if (distanceToThePlatform < _distanceToSpawn - 2)
-            {
-                SpawnPlatforms();
-            }
-        }
-
-        else
-        {
-            if (distanceToThePlatform < _distanceToSpawn + 2)
-            {
-                SpawnPlatforms();
-            }
-        }
-
-        if (!_canSpawnSpecialPlatform)
-        {
-            _timeSinceSpawn += Time.deltaTime;
-            if (_timeSinceSpawn >= _timeToSpawnAgain)
-            {
-                _canSpawnSpecialPlatform = true;
-                _canSpawnDeathPlatform = true;
-                _timeSinceSpawn = 0f;
-            }
+            SpawnPlatforms();
         }
     }
 
@@ -130,10 +98,9 @@ public class PlatformSpawner : MonoBehaviour
                 _pooler.GetObject(_breakablePrefab).transform.position = _spawnPlatformPosition;
             }
 
-            else if (randomValue > 80 && _canSpawnSpecialPlatform)
+            else if (randomValue > 80)
             {
                 _pooler.GetObject(_boostPrefab).transform.position = _spawnPlatformPosition;
-                _canSpawnSpecialPlatform = false;
             }
 
             else
@@ -142,9 +109,9 @@ public class PlatformSpawner : MonoBehaviour
             }
         }
     
-    //Aparecem tambem as plataformas que matam o player, sempre acompanhadas de uma plataforma normal
+        //Aparecem tambem as plataformas que matam o player, sempre acompanhadas de uma plataforma normal
         if (_uiManager.GetScore() > stages[3].stageSettings[0].startPoint &&
-            _uiManager.GetScore() >= stages[3].stageSettings[0].endPoint)
+            _uiManager.GetScore() <= stages[3].stageSettings[0].endPoint)
         {
             float randomValue = GetRandomValueFromZeroToHundred();
             
@@ -158,20 +125,17 @@ public class PlatformSpawner : MonoBehaviour
                 _pooler.GetObject(_breakablePrefab).transform.position = _spawnPlatformPosition;
             }
             
-            else if (randomValue > 80 && _canSpawnSpecialPlatform)
+            else if (randomValue > 80)
             {
                 float randomSpecialPlatform = Random.Range(0, 9);
                 
                 if (randomSpecialPlatform <= 4)
                 {
                     _pooler.GetObject(_boostPrefab).transform.position = _spawnPlatformPosition;
-                    _canSpawnSpecialPlatform = false;
                 }
                 else
                 {
                     _pooler.GetObject(_deathPrefab).transform.position = _spawnPlatformPosition;
-                    _canSpawnDeathPlatform = false;
-                    _canSpawnSpecialPlatform = false;
                 }
             }
 
