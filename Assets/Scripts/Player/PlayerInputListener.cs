@@ -38,7 +38,7 @@ public class PlayerInputListener : MonoBehaviour
         _inputPosition = Pointer.current.position.ReadValue();
         OnMove?.Invoke(_inputPosition);
     }
-
+    
     public void MoveEndInput(InputAction.CallbackContext context)
     {
         _isMoving = false;

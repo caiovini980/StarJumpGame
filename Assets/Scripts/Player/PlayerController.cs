@@ -59,8 +59,11 @@ public class PlayerController : MonoBehaviour
     {
         if (_playerInput.CheckMovementStatus())
         {
+            //transform.position = new Vector3(_newPosition.x, transform.position.y, transform.position.z);
+            
             if (_newPosition.x > 0)
             {
+                //_rigidbody.velocity = new Vector2(SPEED, _rigidbody.velocity.y);
                 if (_rigidbody.velocity.x < 0)
                 {
                     _rigidbody.AddForce(Vector2.right * TURN_SPEED, ForceMode2D.Force);
@@ -71,6 +74,7 @@ public class PlayerController : MonoBehaviour
             
             else if (_newPosition.x < 0)
             {
+                //_rigidbody.velocity = new Vector2(-SPEED, _rigidbody.velocity.y);
                 if (_rigidbody.velocity.x > 0)
                 {
                     _rigidbody.AddForce(Vector2.left * TURN_SPEED, ForceMode2D.Force);
@@ -79,6 +83,10 @@ public class PlayerController : MonoBehaviour
                 _rigidbody.AddForce(Vector2.left * SPEED, ForceMode2D.Force);
             }
         }
+        /*else
+        {
+            _rigidbody.velocity = new Vector2(0f, _rigidbody.velocity.y);
+        }*/
     }
 
     private void Update()
@@ -108,12 +116,12 @@ public class PlayerController : MonoBehaviour
     {
         if (_playerTransform.position.x > _newScreenBounds.x)
         {
-            _playerTransform.position = new Vector2(-_newScreenBounds.x, transform.position.y);
+            _playerTransform.position = new Vector2(_newScreenBounds.x, transform.position.y);
         }
         
         else if (_playerTransform.position.x < -_newScreenBounds.x)
         {
-            _playerTransform.position = new Vector2(_newScreenBounds.x, transform.position.y);
+            _playerTransform.position = new Vector2(-_newScreenBounds.x, transform.position.y);
         }
     }
     

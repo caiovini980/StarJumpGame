@@ -162,6 +162,6 @@ public class PlatformSpawner : MonoBehaviour
 
     private float GetRandomPositionX()
     {
-        return Random.Range(_screenBoundsX.x, -_screenBoundsX.x);
+        return Random.Range(_screenBoundsX.x - 0.5f, -_screenBoundsX.x + 0.5f);
     }
 }

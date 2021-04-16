@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _highScoreGameOverIcons; 
     [SerializeField] private GameObject _restartButton;
     [SerializeField] private GameObject _quitButton;
+    [SerializeField] private GameObject _comboAreaObject;
 
     [SerializeField] private RectTransform _gameOverPanel;
     [SerializeField] private RectTransform _mainMenuPanel;
@@ -19,20 +19,29 @@ public class UIManager : MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private TextMeshProUGUI _highScoreText;
-
-    private float _scoreAmount;
+    [SerializeField] private TextMeshProUGUI _comboText;
 
     private AnimationManager _animationManager;
+    
+    private PlayerController _player;
 
     private GameObject _highScoreTextGameObject;
     
     private Color _darkScreenColor;
+
+    private Vector3 _playerPosition;
+
+    private float _scoreAmount;
     
+    private int _comboScore;
+
     // Start is called before the first frame update
     void Start()
     {
-        _scoreText.text = "" + 00;
+        _scoreText.text = "" + 0;
+        _comboText.text = "+ " + 1;
         _animationManager = GameManager.sInstance.AnimationManager;
+        _player = GameManager.sInstance.Player;
         _highScoreTextGameObject = _highScoreText.gameObject;
         
         _trophyIcon.SetActive(false);
@@ -75,6 +84,27 @@ public class UIManager : MonoBehaviour
         LeanTween.move(_mainMenuPanel, Vector3.zero, 1f).setOnComplete(ShowTitle);
     }
 
+    public void ShowComboMultiplier(int value)
+    {
+        _comboScore += value;
+        _comboText.text = _comboScore.ToString();
+        
+        
+        if (_comboScore >= 4)
+        {
+            LeanTween.scaleY(_comboAreaObject, 1, 0.3f);
+            PlayerPrefs.SetFloat("ComboScore", _comboScore);
+        }
+    }
+
+    public void ResetCombo()
+    {
+        _comboScore = 0;
+        _comboText.text = _comboScore.ToString();
+        
+        LeanTween.scaleY(_comboAreaObject, 0, 0.1f);
+    }
+
     private void ShowTitle()
     {
         LeanTween.moveY(_title, -200, 1.5f).setEaseOutBounce();
@@ -83,7 +113,7 @@ public class UIManager : MonoBehaviour
 
     private void ShowHighScore()
     {
-        _highScoreText.text = PlayerPrefs.GetFloat("HighScore", 0).ToString();
+        _highScoreText.text = (PlayerPrefs.GetFloat("HighScore", 0) + PlayerPrefs.GetFloat("ComboScore", defaultValue: 0)).ToString();
         LeanTween.scale(_highScoreTextGameObject, new Vector3(1.5f, 1.5f, 1.5f), 0.5f).setOnComplete(ReturnUIAnimationToNormal);
     }
 

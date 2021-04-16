@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class PlatformBase : MonoBehaviour
@@ -8,15 +9,19 @@ public abstract class PlatformBase : MonoBehaviour
     
     protected abstract void Initialize();
     protected abstract void PlatformEffect(Rigidbody2D characterInPlatform);
-
-    private float _collisionVelocity;
-    
-    private PlayerController _player;
     
     protected AnimationManager _animationManager;
 
     protected AudioSource _sound;
     
+    private float _collisionVelocity;
+
+    private bool _canCombo;
+    
+    private PlayerController _player;
+
+    private UIManager _uiManager;
+
     //[SerializeField] protected PlatformType _type;
 
     private void Awake()
@@ -24,10 +29,16 @@ public abstract class PlatformBase : MonoBehaviour
         _sound = GetComponent<AudioSource>();
     }
 
+    private void OnEnable()
+    {
+        _canCombo = true;
+    }
+
     private void Start()
     {
         _player = GameManager.sInstance.Player;
         _animationManager = GameManager.sInstance.AnimationManager;
+        _uiManager = GameManager.sInstance.UIManager;
         
         Initialize();
     }
@@ -50,6 +61,16 @@ public abstract class PlatformBase : MonoBehaviour
                     
             if (playerRigidbody != null)
             {
+                if (_canCombo)
+                {
+                    _uiManager.ShowComboMultiplier(1);
+                    _canCombo = false;
+                }
+                else
+                {
+                    _uiManager.ResetCombo();
+                }
+                
                 PlatformEffect(playerRigidbody);
                 _animationManager.PlayPlayerJumpAnimation();
                 _animationManager.PlayPlayerParticleSystemAt(playerRigidbody.transform.position);

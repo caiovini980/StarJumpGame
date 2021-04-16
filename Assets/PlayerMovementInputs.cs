@@ -41,6 +41,14 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""b66a93e5-47e3-4dfc-b3a0-27a2830b1ef7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -48,7 +56,7 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""27abf894-6c35-4c6d-bbf5-c709d8f9539b"",
                     ""path"": ""<Mouse>/press"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MoveStart"",
@@ -59,7 +67,7 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""f997509c-d92d-477b-83cf-11fd093c0412"",
                     ""path"": ""<Touchscreen>/press"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MoveStart"",
@@ -98,6 +106,28 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
                     ""action"": ""BreakPlatform"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ed75625-98a2-412e-b455-9f7b2032b6da"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ed0d595-2f86-4c03-b33b-aaf8779d12f0"",
+                    ""path"": ""<Touchscreen>/press"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -109,6 +139,7 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
         m_PlayerMain_MoveStart = m_PlayerMain.FindAction("MoveStart", throwIfNotFound: true);
         m_PlayerMain_MoveEnd = m_PlayerMain.FindAction("MoveEnd", throwIfNotFound: true);
         m_PlayerMain_BreakPlatform = m_PlayerMain.FindAction("BreakPlatform", throwIfNotFound: true);
+        m_PlayerMain_Movement = m_PlayerMain.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -161,6 +192,7 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerMain_MoveStart;
     private readonly InputAction m_PlayerMain_MoveEnd;
     private readonly InputAction m_PlayerMain_BreakPlatform;
+    private readonly InputAction m_PlayerMain_Movement;
     public struct PlayerMainActions
     {
         private @PlayerMovementInputs m_Wrapper;
@@ -168,6 +200,7 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
         public InputAction @MoveStart => m_Wrapper.m_PlayerMain_MoveStart;
         public InputAction @MoveEnd => m_Wrapper.m_PlayerMain_MoveEnd;
         public InputAction @BreakPlatform => m_Wrapper.m_PlayerMain_BreakPlatform;
+        public InputAction @Movement => m_Wrapper.m_PlayerMain_Movement;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMain; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -186,6 +219,9 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
                 @BreakPlatform.started -= m_Wrapper.m_PlayerMainActionsCallbackInterface.OnBreakPlatform;
                 @BreakPlatform.performed -= m_Wrapper.m_PlayerMainActionsCallbackInterface.OnBreakPlatform;
                 @BreakPlatform.canceled -= m_Wrapper.m_PlayerMainActionsCallbackInterface.OnBreakPlatform;
+                @Movement.started -= m_Wrapper.m_PlayerMainActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_PlayerMainActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_PlayerMainActionsCallbackInterface.OnMovement;
             }
             m_Wrapper.m_PlayerMainActionsCallbackInterface = instance;
             if (instance != null)
@@ -199,6 +235,9 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
                 @BreakPlatform.started += instance.OnBreakPlatform;
                 @BreakPlatform.performed += instance.OnBreakPlatform;
                 @BreakPlatform.canceled += instance.OnBreakPlatform;
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
             }
         }
     }
@@ -208,5 +247,6 @@ public class @PlayerMovementInputs : IInputActionCollection, IDisposable
         void OnMoveStart(InputAction.CallbackContext context);
         void OnMoveEnd(InputAction.CallbackContext context);
         void OnBreakPlatform(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
     }
 }

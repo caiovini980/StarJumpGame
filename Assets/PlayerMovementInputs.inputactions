@@ -28,6 +28,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press"
+                },
+                {
+                    "name": "Movement",
+                    "type": "PassThrough",
+                    "id": "b66a93e5-47e3-4dfc-b3a0-27a2830b1ef7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -35,7 +43,7 @@
                     "name": "",
                     "id": "27abf894-6c35-4c6d-bbf5-c709d8f9539b",
                     "path": "<Mouse>/press",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "",
                     "action": "MoveStart",
@@ -46,7 +54,7 @@
                     "name": "",
                     "id": "f997509c-d92d-477b-83cf-11fd093c0412",
                     "path": "<Touchscreen>/press",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "",
                     "action": "MoveStart",
@@ -83,6 +91,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "BreakPlatform",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1ed75625-98a2-412e-b455-9f7b2032b6da",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9ed0d595-2f86-4c03-b33b-aaf8779d12f0",
+                    "path": "<Touchscreen>/press",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
