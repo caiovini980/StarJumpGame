@@ -12,7 +12,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _restartButton;
     [SerializeField] private GameObject _quitButton;
     [SerializeField] private GameObject _comboAreaObject;
-
+    
+    [SerializeField] private RectTransform _maxComboHeader;
     [SerializeField] private RectTransform _gameOverPanel;
     [SerializeField] private RectTransform _mainMenuPanel;
     [SerializeField] private RectTransform _title;
@@ -20,6 +21,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private TextMeshProUGUI _highScoreText;
     [SerializeField] private TextMeshProUGUI _comboText;
+    [SerializeField] private TextMeshProUGUI _maxComboText;
 
     private AnimationManager _animationManager;
     
@@ -32,6 +34,7 @@ public class UIManager : MonoBehaviour
     private Vector3 _playerPosition;
 
     private float _scoreAmount;
+    private float _tempCombo = 0;
     
     private int _comboScore;
 
@@ -40,6 +43,7 @@ public class UIManager : MonoBehaviour
     {
         _scoreText.text = "" + 0;
         _comboText.text = "+ " + 1;
+        _maxComboText.text = "" + 0;
         _animationManager = GameManager.sInstance.AnimationManager;
         _player = GameManager.sInstance.Player;
         _highScoreTextGameObject = _highScoreText.gameObject;
@@ -89,16 +93,26 @@ public class UIManager : MonoBehaviour
         _comboScore += value;
         _comboText.text = _comboScore.ToString();
         
+        Debug.Log(_tempCombo);
         
         if (_comboScore >= 4)
         {
             LeanTween.scaleY(_comboAreaObject, 1, 0.3f);
+     
             PlayerPrefs.SetFloat("ComboScore", _comboScore);
         }
     }
 
     public void ResetCombo()
     {
+        if (PlayerPrefs.GetFloat("ComboScore", defaultValue: 0) > _tempCombo)
+        {
+            _tempCombo = PlayerPrefs.GetFloat("ComboScore", defaultValue: 0);
+            //play animation
+            LeanTween.moveY(_maxComboHeader, 37f, 0.2f);
+            _maxComboText.text = _tempCombo.ToString();
+        }
+        
         _comboScore = 0;
         _comboText.text = _comboScore.ToString();
         
@@ -107,13 +121,13 @@ public class UIManager : MonoBehaviour
 
     private void ShowTitle()
     {
-        LeanTween.moveY(_title, -200, 1.5f).setEaseOutBounce();
+        LeanTween.moveY(_title, -200, 1.5f).setEaseOutBounce().setOnComplete(AnimationReturnToMenuButton);
         StartCoroutine(WaitToShowTitleParticles(0.6f));
     }
 
     private void ShowHighScore()
     {
-        _highScoreText.text = (PlayerPrefs.GetFloat("HighScore", 0) + PlayerPrefs.GetFloat("ComboScore", defaultValue: 0)).ToString();
+        _highScoreText.text = (PlayerPrefs.GetFloat("HighScore", 0) + _tempCombo).ToString();
         LeanTween.scale(_highScoreTextGameObject, new Vector3(1.5f, 1.5f, 1.5f), 0.5f).setOnComplete(ReturnUIAnimationToNormal);
     }
 
