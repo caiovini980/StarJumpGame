@@ -142,7 +142,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   streak: 0
-  _type: 0
   _platform: {fileID: 11400000, guid: 85f05c4655d28c34ba669bef113a5314, type: 2}
   _shakeData: {fileID: 11400000, guid: 31d62fbea28c50d47add1ebb8e8df925, type: 2}
 --- !u!114 &7888352680509546814
@@ -178,10 +177,10 @@ AudioSource:
   m_GameObject: {fileID: 6002822015868971601}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -4010537385504748685, guid: 2eead739756d6a743bec51e9bb56738e, type: 2}
   m_audioClip: {fileID: 8300000, guid: 5b63af30a7bc57544aec92b33693edf1, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0

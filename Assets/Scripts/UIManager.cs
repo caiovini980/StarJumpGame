@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    
     
     [SerializeField] private GameObject _welcomePanel;
     [SerializeField] private GameObject _trophyIcon;
@@ -12,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _restartButton;
     [SerializeField] private GameObject _quitButton;
     [SerializeField] private GameObject _comboAreaObject;
+    [SerializeField] private GameObject _settingsPanel;
     
     [SerializeField] private RectTransform _maxComboHeader;
     [SerializeField] private RectTransform _gameOverPanel;
@@ -22,6 +25,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _highScoreText;
     [SerializeField] private TextMeshProUGUI _comboText;
     [SerializeField] private TextMeshProUGUI _maxComboText;
+
+    [SerializeField] private Slider _musicVolumeSlider;
+    [SerializeField] private Slider _sFXVolumeSlider;
 
     private AnimationManager _animationManager;
     
@@ -47,6 +53,8 @@ public class UIManager : MonoBehaviour
         _animationManager = GameManager.sInstance.AnimationManager;
         _player = GameManager.sInstance.Player;
         _highScoreTextGameObject = _highScoreText.gameObject;
+        
+        PlayerPrefs.SetFloat("ComboScore", 0);
         
         _trophyIcon.SetActive(false);
     }
@@ -83,6 +91,12 @@ public class UIManager : MonoBehaviour
         _trophyIcon.SetActive(true);
     }
 
+    public void ShowSettingPanel()
+    {
+        //play animation
+        _settingsPanel.SetActive(true);
+    }
+
     public void ShowMainMenuPanel()
     {
         LeanTween.move(_mainMenuPanel, Vector3.zero, 1f).setOnComplete(ShowTitle);
@@ -92,8 +106,6 @@ public class UIManager : MonoBehaviour
     {
         _comboScore += value;
         _comboText.text = _comboScore.ToString();
-        
-        Debug.Log(_tempCombo);
         
         if (_comboScore >= 4)
         {
@@ -127,8 +139,19 @@ public class UIManager : MonoBehaviour
 
     private void ShowHighScore()
     {
-        _highScoreText.text = (PlayerPrefs.GetFloat("HighScore", 0) + _tempCombo).ToString();
+        if (_scoreAmount > PlayerPrefs.GetFloat("HighScore", 0))
+        {
+           _highScoreText.text = (PlayerPrefs.GetFloat("HighScore", 0) + _tempCombo).ToString(); 
+        }
+
+        _highScoreText.text = PlayerPrefs.GetFloat("HighScore", 0).ToString();
+        
         LeanTween.scale(_highScoreTextGameObject, new Vector3(1.5f, 1.5f, 1.5f), 0.5f).setOnComplete(ReturnUIAnimationToNormal);
+    }
+
+    public void ReturnToMainMenuFromSettings()
+    {
+        _settingsPanel.SetActive(false);
     }
 
     private void ReturnUIAnimationToNormal()
@@ -144,6 +167,12 @@ public class UIManager : MonoBehaviour
     private void AnimationReturnToMenuButton()
     {
         LeanTween.scale(_quitButton, new Vector3(1f, 1f, 1f), 0.3f);
+    }
+
+    public void SetSlidersPositionTo(float musicSlider, float sfxSlider)
+    {
+        _musicVolumeSlider.value = musicSlider;
+        _sFXVolumeSlider.value = sfxSlider;
     }
 
     public float GetScore()
