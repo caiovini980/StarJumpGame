@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69a72f5c9a3bf4f4888a3eddf3b7382d, type: 3}
+  m_Name: Stage 2
+  m_EditorClassIdentifier: 
+  stageSettings:
+  - name: Settings
+    startPoint: 500
+    endPoint: 1500
+    seedWeight: 0
+    availablePlatforms:
+    - name: Normal Platform
+      plataformPrefab: {fileID: 6002822015868971601, guid: b410daebb47b18d44bda2dae50024c80, type: 3}
+      spawnChance: 50
+      spawnChangeSeedWeight: 0
+    - name: Breakable Platform
+      plataformPrefab: {fileID: 4076312626922297163, guid: 03280814e0cc3e145a31579bb91ea49d, type: 3}
+      spawnChance: 50
+      spawnChangeSeedWeight: 0
